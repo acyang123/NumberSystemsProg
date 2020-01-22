@@ -1,11 +1,68 @@
 
 function ConversionPart3() {
   var floatToConvert = parseFloat(document.getElementById("3_Float").value);
+  stringFloat=floatToConvert.toString();
+  decimalLoc=stringFloat.indexOf(".");
+  outputValue="";
+  outputDec=""
+  current = Math.floor(floatToConvert);
+  currentDecimal = floatToConvert-current;
+  while (current>=2)
+  {
+    outputValue=""+current%2+""+outputValue;
+    current=(current-current%2)/2;
+  }
+  if (current>0)
+  {
+    outputValue=""+current+""+outputValue;
+  }
+  if (currentDecimal!=0)
+  {
+    while(outputDec.length+outputValue.length<23)
+    {
+      currentDecimal=currentDecimal*2;
+      if (currentDecimal>=1)
+      {
+        outputDec=""+1+""+outputDec;
+        currentDecimal=currentDecimal-1;
+      }
+      else {
+        outputDec=""+0+""+outputDec;
+      }
+    }
+  }
+  else {
+    currentDecimal="";
+  }
+  numPart=""+outputValue.substring(1)+""+outputDec;
+  if (numPart.length<23)
+  {
+    while (numPart.length<23)
+    {
+      numPart=numPart+"0";
+    }
+  }
 
+  var signBit=0;
+  if (floatToConvert<0)
+  {
+    signBit=1;
+  }
 
-
-  var output32BitScientificNotation = "10100011001100001000010100101010";
-
+  power=outputValue.length-1;
+  power=128+power;
+  powerBinary="";
+  var currentPower=power;
+  while (currentPower>=2)
+  {
+    powerBinary=""+currentPower%2+""+powerBinary;
+    currentPower=(currentPower-currentPower%2)/2;
+  }
+  if (current>0)
+  {
+    powerBinary=""+currentPower+""+powerBinary;
+  }
+  output32BitScientificNotation=""+numPart+""+powerBinary+""+signBit;
 
   // Show the output on the screen
   FormatAndShowOutput([floatToConvert, output32BitScientificNotation], 3);
